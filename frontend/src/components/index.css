@@ -1,0 +1,54 @@
+/* Custom CSS for pie chart animations */
+@keyframes slice-grow {
+  0% {
+    transform: scale(0) rotate(-90deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.recharts-pie-slice {
+  animation: slice-grow 0.8s ease-out forwards;
+  transform-origin: center;
+}
+
+.recharts-pie-slice:nth-child(1) { animation-delay: 0ms; }
+.recharts-pie-slice:nth-child(2) { animation-delay: 100ms; }
+.recharts-pie-slice:nth-child(3) { animation-delay: 200ms; }
+.recharts-pie-slice:nth-child(4) { animation-delay: 300ms; }
+.recharts-pie-slice:nth-child(5) { animation-delay: 400ms; }
+.recharts-pie-slice:nth-child(6) { animation-delay: 500ms; }
+.recharts-pie-slice:nth-child(7) { animation-delay: 600ms; }
+.recharts-pie-slice:nth-child(8) { animation-delay: 700ms; }
+
+/* Hover effect for pie slices */
+.recharts-pie-sector {
+  transition: transform 0.2s ease-out;
+}
+
+.recharts-pie-sector:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Custom animations for tooltips */
+.recharts-tooltip-wrapper {
+  animation: tooltip-fade 0.3s ease-out;
+}
+
+@keyframes tooltip-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
