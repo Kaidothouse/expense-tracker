@@ -1,16 +1,17 @@
 import { useState, useEffect, useCallback } from 'react';
 import { expenseAPI } from '../services/api';
 
-export const useExpenses = (filters = {}) => {
+export const useExpenses = (filters) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const filterKey = JSON.stringify(filters || {});
 
   const fetchExpenses = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await expenseAPI.getAll(filters);
+      const response = await expenseAPI.getAll(filters || {});
       setExpenses(response.data.data);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch expenses');
@@ -18,11 +19,11 @@ export const useExpenses = (filters = {}) => {
     } finally {
       setLoading(false);
     }
-  }, [filters]);
+  }, [filterKey, filters]);
 
   useEffect(() => {
     fetchExpenses();
-  }, [fetchExpenses]);
+  }, [fetchExpenses, filterKey]);
 
   const createExpense = async (data) => {
     try {
