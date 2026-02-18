@@ -5,8 +5,7 @@ export const useExpenses = (filters) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const filterKey = JSON.stringify(filters || {});
-  const stableFilters = useMemo(() => filters || {}, [filterKey]);
+  const stableFilters = useMemo(() => filters ?? {}, [filters]);
 
   const fetchExpenses = useCallback(async () => {
     try {
@@ -20,7 +19,7 @@ export const useExpenses = (filters) => {
     } finally {
       setLoading(false);
     }
-  }, [filterKey, stableFilters]);
+  }, [stableFilters]);
 
   useEffect(() => {
     fetchExpenses();
