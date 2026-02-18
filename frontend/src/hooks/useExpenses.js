@@ -5,7 +5,8 @@ export const useExpenses = (filters) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const stableFilters = useMemo(() => filters ?? {}, [filters]);
+  const filterKey = useMemo(() => JSON.stringify(filters ?? {}), [filters]);
+  const stableFilters = useMemo(() => JSON.parse(filterKey), [filterKey]);
 
   const fetchExpenses = useCallback(async () => {
     try {
