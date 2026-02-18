@@ -2,9 +2,17 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import authService from './auth';
 
+const normalizeApiUrl = (url) => {
+  const trimmed = url.replace(/\/+$/, '');
+  if (trimmed.endsWith('/api')) {
+    return trimmed;
+  }
+  return `${trimmed}/api`;
+};
+
 const resolveApiBaseUrl = () => {
   if (process.env.REACT_APP_API_URL) {
-    return process.env.REACT_APP_API_URL;
+    return normalizeApiUrl(process.env.REACT_APP_API_URL);
   }
 
   if (process.env.NODE_ENV === 'production') {
