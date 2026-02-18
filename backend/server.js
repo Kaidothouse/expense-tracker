@@ -13,7 +13,7 @@ const categoryRoutes = require('./routes/category.routes');
 const budgetRoutes = require('./routes/budget.routes');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 5000;
 
 // Middleware
 app.use(helmet());
@@ -77,18 +77,17 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Initialize database and start server
-async function startServer() {
+const startServer = async (port) => {
   try {
     await database.initialize();
-    const server = app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-      console.log(`API available at http://localhost:${PORT}${API_PREFIX}`);
+    const server = app.listen(port, '0.0.0.0', () => {
+      console.log(`Server is running on port ${port}`);
+      console.log(`API available at http://localhost:${port}${API_PREFIX}`);
     });
 
     server.on('error', (error) => {
       if (error.code === 'EADDRINUSE') {
-        console.error(`Port ${PORT} is already in use. Set PORT in backend/.env to a free port.`);
+        console.error(`Port ${port} is already in use. Set PORT in backend/.env to a free port.`);
         process.exit(1);
       }
       console.error('Server error:', error);
@@ -98,9 +97,9 @@ async function startServer() {
     console.error('Failed to start server:', error);
     process.exit(1);
   }
-}
+};
 
-startServer();
+startServer(PORT);
 
 // Graceful shutdown
 process.on('SIGTERM', async () => {
